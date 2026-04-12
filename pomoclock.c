@@ -9,9 +9,10 @@
 #include <stdio.h>
 
 #define LED_PIN 12
-#define WIFI_SSID "NOME_WIFI"
-#define WIFI_PASS "SENHA_WIFI"
+#define WIFI_SSID "Ana luiza"
+#define WIFI_PASS "luiz@3020"
 #define BUZZER_PIN 21
+
 
 char http_response[2048];
 
@@ -69,7 +70,7 @@ static err_t http_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_
 
 char *request = (char *)p->payload;
 
-//when the timer stop
+// when the timer stop
 if(strstr(request, "GET /timeout") != NULL) {
     gpio_put(LED_PIN, 1);
     sleep_ms(1000);
@@ -125,13 +126,6 @@ int main()
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
-    gpio_init(BUTTON1_PIN);
-    gpio_set_dir(BUTTON1_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON1_PIN);
-
-    gpio_init(BUTTON2_PIN);
-    gpio_set_dir(BUTTON2_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON2_PIN);
 
     gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
@@ -140,10 +134,8 @@ int main()
     start_http_server();
 
     while (true) {
-     cyw43_arch_poll();
-    monitor_buttons();
+    cyw43_arch_poll();
     sleep_ms(100);
-   // sound_buzzer(1000, 100);
     }
 
     cyw43_arch_deinit();
