@@ -52,11 +52,11 @@ void create_http_response() {
              "function startTimer(duration) {"
              "if(timerInterval) clearInterval(timerInterval); time = duration; updateCountdown();"
              "timerInterval = setInterval(() => {"
-             "if(time<=0) {clearInterval(timerInterval); fetch('/timeout');} else {time--; updateCountdown();}"
+             "if(time<=0) {clearInterval(timerInterval); fetch('/timeout'); } else {time--; updateCountdown();}"
             " },1000)"
              "}"
-             "document.getElementById('startButton').addEventListener('click', () => { startTimer(25 * 60); document.getElementById('startButton').disabled = true; document.getElementById('restButton').disabled = false;});"
-             "document.getElementById('restButton').addEventListener('click', () => { startTimer(5 * 60); document.getElementById('restButton').disabled = true; document.getElementById('startButton').disabled = false; });"
+             "document.getElementById('startButton').addEventListener('click', () => { startTimer(25 * 60);});"
+             "document.getElementById('restButton').addEventListener('click', () => { startTimer(5 * 6); });"
              "</script></body></html>");
 }
 
@@ -68,7 +68,17 @@ static err_t http_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_
     }
 
 char *request = (char *)p->payload;
-if(strstr(request, "GET /timeout") != NULL) sound_buzzer(2000, 500);
+if(strstr(request, "GET /timeout") != NULL) {
+    gpio_put(LED_PIN, 1);
+    sleep_ms(1000);
+    gpio_put(LED_PIN, 0);
+    gpio_put(LED_PIN, 1);
+    sleep_ms(1000);
+    gpio_put(LED_PIN, 0);
+    sound_buzzer(2000, 1000);
+    sound_buzzer(2000, 500);
+    sound_buzzer(2000, 1000);
+}
 else if(strstr(request, "GET /led/off") != NULL) {
     gpio_put(LED_PIN, 1);
     sleep_ms(1000);
