@@ -5,7 +5,10 @@ O sistema embarcado proposto no projeto se trata de um alarme para o famoso mét
 
 ### Instruções de instalação e execução
 Sugere-se o uso da extensão Raspberry Pico no VSCode.
-Compile e execute pelo cabo USB, abra o Serial Monitor do VSCode e veja o endereço em que abrirá a resposta HTTP do projeto. Lá você poderá utilizar o timer pomodoro.
+Antes de tudo, deve-se alterar no código a senha e o nome da rede Wifi para a conexão.
+Compile e execute pelo cabo USB, abra o Serial Monitor do VSCode e veja o endereço em que abrirá a resposta HTTP do projeto.
+Copie o endereço e abra. Por exemplo: http://192.168.11.11/
+Lá você poderá utilizar o timer pomodoro, escolhendo entre tempo de estudo e de descanso.
 
 ### Dependências/Bibliotecas utilizadas
     pico_stdlib
