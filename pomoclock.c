@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 #define LED_PIN 12
-#define WIFI_SSID "Ana luiza"
-#define WIFI_PASS "luiz@3020"
+#define WIFI_SSID "NOME_WIFI"
+#define WIFI_PASS "SENHA_WIFI"
 #define BUZZER_PIN 21
 
 char http_response[2048];
@@ -56,7 +56,7 @@ void create_http_response() {
             " },1000)"
              "}"
              "document.getElementById('startButton').addEventListener('click', () => { startTimer(25 * 60);});"
-             "document.getElementById('restButton').addEventListener('click', () => { startTimer(5 * 6); });"
+             "document.getElementById('restButton').addEventListener('click', () => { startTimer(5 * 60); });"
              "</script></body></html>");
 }
 
