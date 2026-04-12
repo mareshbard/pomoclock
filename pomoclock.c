@@ -9,14 +9,13 @@
 #include <stdio.h>
 
 #define LED_PIN 12
-#define BUTTON1_PIN 5
-#define BUTTON2_PIN 6
 #define WIFI_SSID "Ana luiza"
 #define WIFI_PASS "luiz@3020"
 #define BUZZER_PIN 21
 
 char http_response[2048];
 
+// creating the alarm sound
 void sound_buzzer(uint frequency, uint duration_ms) {
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
     uint32_t clock_freq = clock_get_hz(clk_sys);
@@ -27,6 +26,7 @@ void sound_buzzer(uint frequency, uint duration_ms) {
     sleep_ms(duration_ms);
     pwm_set_gpio_level(BUZZER_PIN, 0);
 }
+// creating response in web
 void create_http_response() {
     snprintf(http_response, sizeof(http_response),
              "HTTP/1.1 200 OK\r\n"
@@ -68,6 +68,8 @@ static err_t http_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_
     }
 
 char *request = (char *)p->payload;
+
+//when the timer stop
 if(strstr(request, "GET /timeout") != NULL) {
     gpio_put(LED_PIN, 1);
     sleep_ms(1000);
@@ -78,11 +80,6 @@ if(strstr(request, "GET /timeout") != NULL) {
     sound_buzzer(2000, 1000);
     sound_buzzer(2000, 500);
     sound_buzzer(2000, 1000);
-}
-else if(strstr(request, "GET /led/off") != NULL) {
-    gpio_put(LED_PIN, 1);
-    sleep_ms(1000);
-    gpio_put(LED_PIN, 0);
 }
 
 create_http_response();
@@ -103,35 +100,6 @@ static void start_http_server(void) {
     pcb = tcp_listen(pcb);
     tcp_accept(pcb, connection_callback);
 }
-
-void monitor_buttons() {
-static bool button1_last_state = false;
-static bool button2_last_state = false;
-
-bool button1_state = !gpio_get(BUTTON1_PIN);
-bool button2_state = !gpio_get(BUTTON2_PIN);
-
-
-if(button1_state != button1_last_state) {
-    button1_last_state = button1_state;
-    if(button1_state) {
-        snprintf(http_response, sizeof(http_response), "Button 1 Pressed\n");
-    } else {
-        snprintf(http_response, sizeof(http_response), "Button 1 Released\n");
-    }
-}
-
-if(button2_state != button2_last_state) {
-    button2_last_state = button2_state;
-    if(button2_state) {
-        snprintf(http_response, sizeof(http_response), "Button 2 Pressed\n");
-    } else {
-        snprintf(http_response, sizeof(http_response), "Button 2 Released\n");
-    }
-}
-}
-
-
 
 int main()
 {
