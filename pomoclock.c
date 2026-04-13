@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 #define LED_PIN 12
-#define WIFI_SSID "Ana luiza"
-#define WIFI_PASS "luiz@3020"
+#define WIFI_SSID "NOME_WIFI"
+#define WIFI_PASS "SENHA_WIFI"
 #define BUZZER_PIN 21
 
 
